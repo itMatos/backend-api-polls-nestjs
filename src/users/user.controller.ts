@@ -9,22 +9,22 @@ export class UserController {
 
     @Post()
     create(@Body() createUserDto: CreateUserDto) {
-        return this.userService.create(createUserDto);
+        return this.userService.createUser(createUserDto);
     }
 
     @Get()
     findAll() {
-        return this.userService.findAll();
+        return this.userService.findAllUsers();
     }
 
     @Get(':id')
-    findOne(@Param('id') id: string) {
-        return this.userService.findOne(+id);
+    findById(@Param('id') id: string) {
+        return this.userService.viewUser(+id);
     }
 
     @Patch(':id')
-    update(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        return this.userService.update(+id, updateUserDto);
+    updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
+        return this.userService.updateUser(+id, updateUserDto);
     }
 
     @Delete(':id')
