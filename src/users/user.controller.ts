@@ -19,12 +19,12 @@ export class UserController {
 
     @Get(':id')
     findById(@Param('id') id: string) {
-        return this.userService.viewUser(+id);
+        return this.userService.viewUser(id);
     }
 
     @Patch(':id')
     updateUser(@Param('id') id: string, @Body() updateUserDto: UpdateUserDto) {
-        return this.userService.updateUser(+id, updateUserDto);
+        return this.userService.updateUser(id, updateUserDto);
     }
 
     @Delete(':id')
