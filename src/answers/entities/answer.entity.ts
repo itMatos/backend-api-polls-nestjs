@@ -1,5 +1,4 @@
-import { Polls } from 'src/polls/entities/poll.entity';
-import { Entity, ManyToOne, PrimaryColumn, Column, OneToMany } from 'typeorm';
+import { Entity, PrimaryColumn } from 'typeorm';
 
 @Entity()
 export class AnswerOptions {

@@ -1,4 +1,4 @@
-import { Injectable } from '@nestjs/common';
+import { Injectable, NotFoundException } from '@nestjs/common';
 import { CreatePollDto } from './dto/create-poll.dto';
 // import { UpdatePollDto } from './dto/update-poll.dto';
 import { Polls } from './entities/poll.entity';
@@ -7,6 +7,7 @@ import { InjectRepository } from '@nestjs/typeorm';
 import { AnswerOptions } from './../answers/entities/answer.entity';
 import { PollDto } from './dto/response-poll.dto';
 import { UuidService } from 'nestjs-uuid';
+import { UpdatePollDto } from './dto/update-poll.dto';
 
 @Injectable()
 export class PollsService {
@@ -67,10 +68,54 @@ export class PollsService {
         return response;
     }
 
-    // update(id: number, updatePollDto: UpdatePollDto) {}
+    async update(pollId: string, updatePollDto: UpdatePollDto): Promise<void> {
+        const poll = await this.pollRepository.findOne({
+            where: { poll_id: pollId },
+        });
+
+        if (!poll) {
+            throw new NotFoundException(`Poll with ID ${pollId} not found`);
+        }
+
+        if (updatePollDto.title) poll.title = updatePollDto.title;
+        if (updatePollDto.description) poll.description = updatePollDto.description;
+        if (updatePollDto.answerOptions) {
+            await this.updateAnswerOptions(poll.poll_id, updatePollDto.answerOptions);
+        }
+        await this.pollRepository.save(poll);
+    }
+
+    private async updateAnswerOptions(pollId: string, newOptions: string[]): Promise<void> {
+        const existingOptions = await this.answerRepository.find({
+            where: { poll_id: pollId },
+        });
+        const optionsToDelete = existingOptions.filter(
+            (option) => !newOptions.includes(option.answer)
+        );
+        if (optionsToDelete.length > 0) {
+            await this.answerRepository.remove(optionsToDelete);
+        }
+
+        const optionsToUpsert = newOptions.map(async (optionText) => {
+            let option = existingOptions.find((opt) => opt.answer === optionText);
+
+            if (!option) {
+                option = this.answerRepository.create({
+                    poll_id: pollId,
+                    answer: optionText,
+                });
+            } else {
+                option.answer = optionText;
+            }
+
+            return this.answerRepository.save(option);
+        });
+
+        await Promise.all(optionsToUpsert);
+    }
 
     async deletePoll(pollId: string): Promise<void> {
         await this.answerRepository.delete({ poll_id: pollId });
-        this.pollRepository.delete(pollId);
+        await this.pollRepository.delete(pollId);
     }
 }
