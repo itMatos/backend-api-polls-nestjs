@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreatePollDto } from './dto/create-poll.dto';
-import { UpdatePollDto } from './dto/update-poll.dto';
+// import { UpdatePollDto } from './dto/update-poll.dto';
 import { Polls } from './entities/poll.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -31,7 +31,7 @@ export class PollsService {
         poll.end_date = end_date ? new Date(end_date) : null;
         poll.mult_choice = mult_choice;
 
-        const savePoll = await this.pollRepository.save(poll);
+        await this.pollRepository.save(poll);
 
         const answerOptions = await Promise.all(
             (createPollDto.answer_options ?? []).map((answer) =>
@@ -67,9 +67,10 @@ export class PollsService {
         return response;
     }
 
-    update(id: number, updatePollDto: UpdatePollDto) {}
+    // update(id: number, updatePollDto: UpdatePollDto) {}
 
-    remove(id: number) {
-        return `This action removes a #${id} poll`;
+    async deletePoll(pollId: string): Promise<void> {
+        await this.answerRepository.delete({ poll_id: pollId });
+        this.pollRepository.delete(pollId);
     }
 }

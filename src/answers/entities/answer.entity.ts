@@ -1,3 +1,4 @@
+import { Polls } from 'src/polls/entities/poll.entity';
 import { Entity, ManyToOne, PrimaryColumn, Column, OneToMany } from 'typeorm';
 
 @Entity()
@@ -7,7 +8,4 @@ export class AnswerOptions {
 
     @PrimaryColumn()
     answer: string;
-
-    @OneToMany(() => AnswerOptions, (answerOption) => answerOption.poll_id, { cascade: true })
-    answerOptions: AnswerOptions[];
 }

@@ -1,4 +1,4 @@
-import { IsDate, IsNotEmpty, IsString, MinLength } from 'class-validator';
+import { IsNotEmpty, IsString, MinLength } from 'class-validator';
 
 export class CreatePollDto {
     @IsString()
@@ -6,8 +6,6 @@ export class CreatePollDto {
     @IsNotEmpty()
     title: string;
 
-    @IsString()
-    @MinLength(2, { message: 'Description is too short' })
     description?: string;
 
     beginning_date?: Date;
