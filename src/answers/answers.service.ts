@@ -1,6 +1,6 @@
 import { Injectable } from '@nestjs/common';
 import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
+// import { UpdateAnswerDto } from './dto/update-answer.dto';
 import { AnswerOptions } from './entities/answer.entity';
 import { Repository } from 'typeorm';
 import { InjectRepository } from '@nestjs/typeorm';
@@ -24,9 +24,9 @@ export class AnswersService {
         return this.answerRepository.find({ where: { poll_id: pollId } });
     }
 
-    update(id: number, updateAnswerDto: UpdateAnswerDto) {
-        return `This action updates a #${id} answer`;
-    }
+    // update(id: number, updateAnswerDto: UpdateAnswerDto) {
+    //     return `This action updates a #${id} answer`;
+    // }
 
     remove(id: number) {
         return `This action removes a #${id} answer`;

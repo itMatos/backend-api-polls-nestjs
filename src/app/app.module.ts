@@ -8,6 +8,7 @@ import { UserMiddlware } from 'src/users/user.middleware';
 import { PollsModule } from 'src/polls/polls.module';
 import { AnswersModule } from 'src/answers/answers.module';
 import { UuidModule } from 'nestjs-uuid';
+import { VotesModule } from 'src/votes/votes.module';
 
 @Module({
     imports: [
@@ -16,6 +17,7 @@ import { UuidModule } from 'nestjs-uuid';
         UserModule,
         PollsModule,
         AnswersModule,
+        VotesModule,
         UuidModule,
     ],
     controllers: [AppController],

@@ -1,7 +1,7 @@
-import { Controller, Get, Post, Body, Patch, Param, Delete } from '@nestjs/common';
+import { Controller, Get, Post, Body, Param, Delete } from '@nestjs/common';
 import { AnswersService } from './answers.service';
 import { CreateAnswerDto } from './dto/create-answer.dto';
-import { UpdateAnswerDto } from './dto/update-answer.dto';
+// import { UpdateAnswerDto } from './dto/update-answer.dto';
 
 @Controller('answers')
 export class AnswersController {
@@ -22,10 +22,10 @@ export class AnswersController {
         return this.answersService.findAllPoll(pollId);
     }
 
-    @Patch(':id')
-    update(@Param('id') id: string, @Body() updateAnswerDto: UpdateAnswerDto) {
-        return this.answersService.update(+id, updateAnswerDto);
-    }
+    // @Patch(':id')
+    // update(@Param('id') id: string, @Body() updateAnswerDto: UpdateAnswerDto) {
+    //     return this.answersService.update(+id, updateAnswerDto);
+    // }
 
     @Delete(':id')
     remove(@Param('id') id: string) {

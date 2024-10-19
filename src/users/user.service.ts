@@ -17,7 +17,7 @@ export class UserService {
 
     createUser(createUserDto: CreateUserDto): Promise<Users> {
         const user = new Users();
-        user.id = this.uuidService.generate();
+        user.user_id = this.uuidService.generate();
         user.name = createUserDto.name;
         user.email = createUserDto.email;
         return this.userRepository.save(user);
@@ -27,20 +27,25 @@ export class UserService {
         return this.userRepository.find();
     }
 
+    findUserByEmail(email: string): Promise<Users> {
+        const info = this.userRepository.findOneBy({ email });
+        return info;
+    }
+
     viewUser(id: string): Promise<Users> {
-        return this.userRepository.findOneBy({ id });
+        return this.userRepository.findOneBy({ user_id: id });
     }
 
     updateUser(id: string, updateUserDto: UpdateUserDto): Promise<Users> {
         const user: Users = new Users();
-        user.id = id;
+        user.user_id = id;
         user.name = updateUserDto.name;
         user.email = updateUserDto.email;
 
         return this.userRepository.save(user);
     }
 
-    remove(id: number): Promise<{ affected?: number }> {
+    remove(id: string): Promise<{ affected?: number }> {
         return this.userRepository.delete(id);
     }
 }
