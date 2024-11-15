@@ -1,6 +1,4 @@
-![image](https://github.com/user-attachments/assets/7decbcc0-7f5a-452d-9637-a66cc03e5e02)
-
-# Teste técnico
+# PollHub
 
 ## Descrição
 Este backend gerencia um sistema de enquetes, permitindo que usuários criem enquetes, definam opções de resposta e registrem seus votos. A aplicação segue um modelo baseado em RESTful APIs.
